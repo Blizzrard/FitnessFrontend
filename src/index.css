@@ -1,0 +1,40 @@
+div.main {
+  display: flex;
+  flex-direction: column;
+  min-height: 60vh;
+}
+.navBar {
+  display: flex;
+  justify-content: space-between;
+  border: 2px solid red;
+}
+.navLinks {
+  border: 3px solid black;
+  display: flex;
+  justify-content: flex-end;
+}
+a {
+  margin-right: 10px;
+  padding: 15px;
+}
+.loginBox {
+  align-self: center;
+  margin-top: 25vh;
+  border: 2px solid black;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+.loginBox > fieldset {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 20vw;
+}
+button {
+  width: 10vw;
+}
