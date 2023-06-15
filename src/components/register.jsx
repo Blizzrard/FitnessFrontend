@@ -7,51 +7,63 @@ export default function Register() {
   const [usernameEntry, setUsernameEntry] = useState("");
   const [passwordEntry, setPasswordEntry] = useState("");
   return (
-    <form
-      className="loginBox"
-      onSubmit={async (event) => {
-        event.preventDefault();
-        try {
-          const response = await registerUser(usernameEntry, passwordEntry);
-          console.log(response);
-        } catch (error) {}
-      }}
-    >
-      Login
-      <fieldset>
-        <label htmlFor="username">Username:</label>
-        <input
-          id="usernameEntry"
-          type="text"
-          placeholder="John Smith..."
-          value={usernameEntry}
-          onChange={(e) => {
-            setUsernameEntry(e.target.value);
-          }}
-        ></input>
-      </fieldset>
-      <fieldset>
-        <label htmlFor="password">Password:</label>
-        <input
-          id="passwordEntry"
-          type="password"
-          placeholder="Password..."
-          value={passwordEntry}
-          onChange={(e) => setPasswordEntry(e.target.value)}
-        ></input>
-      </fieldset>
-      <div className="loginButtons">
-        <React.Fragment>
-          <button>Submit</button>
-        </React.Fragment>
-        <button
-          onClick={() => {
-            navigate("/users/login");
-          }}
-        >
-          Login
-        </button>
-      </div>
-    </form>
+    <div>
+      <form
+        className="loginBox"
+        onSubmit={async (event) => {
+          event.preventDefault();
+          try {
+            const response = await registerUser(usernameEntry, passwordEntry);
+            if (response.token) {
+              localStorage.setItem("isLoggedIn", true);
+              localStorage.setItem("token", response.token);
+              setUsernameEntry("");
+              setPasswordEntry("");
+              navigate("/");
+            }
+
+            console.log(response, passwordEntry, usernameEntry);
+          } catch (error) {}
+        }}
+      >
+        Login
+        <fieldset>
+          <label htmlFor="username">Username:</label>
+          <input
+            id="usernameEntry"
+            type="text"
+            placeholder="John Smith..."
+            value={usernameEntry}
+            onChange={(e) => {
+              setUsernameEntry(e.target.value);
+            }}
+          ></input>
+        </fieldset>
+        <fieldset>
+          <label htmlFor="password">Password:</label>
+          <input
+            id="passwordEntry"
+            type="password"
+            placeholder="Password..."
+            value={passwordEntry}
+            onChange={(e) => setPasswordEntry(e.target.value)}
+          ></input>
+        </fieldset>
+        <div className="loginButtons">
+          <React.Fragment>
+            <button>Submit</button>
+          </React.Fragment>
+        </div>
+      </form>
+      <button
+        onClick={() => {
+          setUsernameEntry("");
+          setPasswordEntry("");
+          navigate("/users/login");
+        }}
+      >
+        Login
+      </button>
+    </div>
   );
 }

@@ -33,8 +33,12 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 20vw;
+  width: 30vw;
 }
 button {
   width: 10vw;
+}
+.routineBox {
+  display: flex;
+  border: 2px solid black;
 }

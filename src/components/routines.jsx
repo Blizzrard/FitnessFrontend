@@ -18,16 +18,21 @@ export default function Routines() {
     <div>
       {routines.map((routine) => {
         return (
-          <React.Fragment key={routine.id}>
-            <div>
-              <h1>{routine.name}</h1>
-              <div>
-                {routine.activities.map((activity) => {
-                  return <p>{activity.description}</p>;
-                })}
+          <div className="routineBox" key={routine.id}>
+            <h1>
+              {routine.name}
+              <div className="activityBox">
+                <p>{routine.goal}</p>
+                <div className="allActivities">
+                  {routine.activities.map((activity) => {
+                    return (
+                      <div className="activity">{activity.description}</div>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          </React.Fragment>
+            </h1>
+          </div>
         );
       })}
     </div>
