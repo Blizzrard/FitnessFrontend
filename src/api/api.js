@@ -108,3 +108,10 @@ export const getProfile = async (token) => {
     console.error(err);
   }
 };
+
+document.readyState(() => {
+  $('[data-toggle="popver"]').popover({
+    placement: 'top',
+    trigger: 'hover',
+  })
+})

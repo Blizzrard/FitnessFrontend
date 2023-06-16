@@ -41,4 +41,49 @@ button {
 .routineBox {
   display: flex;
   border: 2px solid black;
+  width: 100%;
+}
+h1 {
+  width: 100%;
+}
+.activityBox {
+  border-top: 2px solid black;
+  text-align: left;
+  display: flex;
+  flex-direction: row;
+  font-size: 16px;
+
+  font-weight: normal;
+  width: 100%;
+}
+.allActivities {
+  flex-basis: 70%;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+}
+p {
+  margin-left: 10px;
+  flex-basis: 10%;
+}
+.activity {
+  margin: 10px;
+  border: 2px solid purple;
+  padding: 10px;
+  border-radius: 25px;
+  text-align: center;
+}
+.activity:hover {
+  background-color: violet;
+  cursor: pointer;
+}
+.activityDesc {
+  display: none;
+}
+.activityDesc:hover {
+  display: block;
 }

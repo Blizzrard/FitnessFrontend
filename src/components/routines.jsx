@@ -1,11 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, MouseEvent } from "react";
 import { Link, Outlet, useOutletContext } from "react-router-dom";
+import { Popover } from "bootstrap";
 
 export default function Routines() {
   const {
     fetchAllRoutines,
     routines: [routines, setRoutines],
   } = useOutletContext();
+
   useEffect(() => {
     try {
       Promise.all([fetchAllRoutines()]).then((value) => {
@@ -22,11 +24,13 @@ export default function Routines() {
             <h1>
               {routine.name}
               <div className="activityBox">
-                <p>{routine.goal}</p>
+                <p>Goal - {routine.goal}</p>
                 <div className="allActivities">
                   {routine.activities.map((activity) => {
                     return (
-                      <div className="activity">{activity.description}</div>
+                      <div title={activity.description} className="activity">
+                        {activity.name}
+                      </div>
                     );
                   })}
                 </div>
