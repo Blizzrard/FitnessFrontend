@@ -24,7 +24,6 @@ const router = createBrowserRouter([
       { path: "/routines", element: <Routines /> },
       { path: "/activities", element: <Activities /> },
       { path: "/users", element: <Users /> },
-      { path: "/routine_activities", element: <RoutineAcivities /> },
       { path: "/users/login", element: <Login /> },
       { path: "/users/register", element: <Register /> },
       { path: "/users/myroutines", element: <MyRoutines /> },

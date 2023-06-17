@@ -7,7 +7,6 @@ export default function Root() {
   const [authToken, setAuthToken] = useState("");
   const [routines, setRoutines] = useState([]);
   const [userProfile, setUserProfile] = useState({});
-  const [loaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     try {
@@ -16,7 +15,6 @@ export default function Root() {
           setAuthToken(values[0]);
           setUserProfile(values[1]);
         })
-        .then(setIsLoaded(true));
     } catch (error) {}
   }, [authToken]);
   return (
@@ -28,7 +26,6 @@ export default function Root() {
           routines: [routines, setRoutines],
           userProfile: [userProfile, setUserProfile],
           authToken,
-          loaded,
         }}
       />
     </div>

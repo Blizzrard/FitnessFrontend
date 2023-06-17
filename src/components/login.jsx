@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import { login } from "../api/api";
+import ErrorMessage from "./errorMessage";
 
 export default function Login() {
   const navigate = useNavigate();
   const [usernameEntry, setUsernameEntry] = useState("");
   const [passwordEntry, setPasswordEntry] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   return (
     <div>
+      <ErrorMessage errorMessage={errorMessage} />
       <form
         className="loginBox"
         onSubmit={async (event) => {
@@ -21,7 +24,11 @@ export default function Login() {
               setPasswordEntry("");
               navigate("/");
             }
-            console.log(response, passwordEntry, usernameEntry);
+            if (response.error) {
+              setErrorMessage(response.error);
+              document.getElementById("errorMessageBox").style.display =
+                "block";
+            }
           } catch (error) {}
         }}
       >
@@ -54,24 +61,18 @@ export default function Login() {
           </React.Fragment>
         </div>
       </form>
-      <button
-        onClick={(e) => {
-          e.preventDefault();
-          setUsernameEntry("");
-          setPasswordEntry("");
-          navigate("/users/register");
-        }}
-      >
-        Register
-      </button>
-      <button
-        onClick={() => {
-          localStorage.removeItem("isLoggedIn");
-          localStorage.removeItem("token");
-        }}
-      >
-        Logout
-      </button>
+      <div className="loginOptions">
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            setUsernameEntry("");
+            setPasswordEntry("");
+            navigate("/users/register");
+          }}
+        >
+          Register
+        </button>
+      </div>
     </div>
   );
 }

@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../api/api";
+import ErrorMessage from "./errorMessage";
 
 export default function Register() {
   const navigate = useNavigate();
   const [usernameEntry, setUsernameEntry] = useState("");
   const [passwordEntry, setPasswordEntry] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   return (
     <div>
+      <ErrorMessage errorMessage={errorMessage} />
       <form
         className="loginBox"
         onSubmit={async (event) => {
@@ -21,8 +24,11 @@ export default function Register() {
               setPasswordEntry("");
               navigate("/");
             }
-
-            console.log(response, passwordEntry, usernameEntry);
+            if (response.error) {
+              setErrorMessage(response.error);
+              document.getElementById("errorMessageBox").style.display =
+                "block";
+            }
           } catch (error) {}
         }}
       >
@@ -55,15 +61,17 @@ export default function Register() {
           </React.Fragment>
         </div>
       </form>
-      <button
-        onClick={() => {
-          setUsernameEntry("");
-          setPasswordEntry("");
-          navigate("/users/login");
-        }}
-      >
-        Login
-      </button>
+      <div className="loginOptions">
+        <button
+          onClick={() => {
+            setUsernameEntry("");
+            setPasswordEntry("");
+            navigate("/users/login");
+          }}
+        >
+          Login
+        </button>
+      </div>
     </div>
   );
 }

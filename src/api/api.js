@@ -72,6 +72,9 @@ export const myData = async (token) => {
 };
 
 export const postRoutine = async (token, name, goal, isPublic) => {
+  if (isPublic === undefined) {
+    isPublic = true;
+  }
   try {
     const response = await fetch(`${BASE_URL}/routines`, {
       method: "POST",
@@ -82,14 +85,14 @@ export const postRoutine = async (token, name, goal, isPublic) => {
       body: JSON.stringify({
         name: name,
         goal: goal,
-        isPublic: true,
+        isPublic: isPublic,
       }),
     });
     const result = await response.json();
     console.log(result);
     return result;
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.error(error, "i am an error");
   }
 };
 
@@ -119,6 +122,40 @@ export const userRoutines = async (username, token) => {
     });
     const result = await response.json();
     console.log(result, "hi mike");
+    return result;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const delRoutine = async (token, routineId) => {
+  try {
+    const response = await fetch(`${BASE_URL}/routines/${routineId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const result = await response.json();
+    console.log(result);
+    return result;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getAllActivities = async () => {
+  try {
+    const response = await fetch(`${BASE_URL}/activities`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const result = await response.json();
+
+    console.log(result);
     return result;
   } catch (err) {
     console.error(err);
