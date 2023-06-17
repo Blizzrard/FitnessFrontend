@@ -83,7 +83,13 @@ p {
 }
 .activityDesc {
   display: none;
+  position: absolute;
+  z-index: 1;
+  background-color: aliceblue;
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 5px;
 }
-.activityDesc:hover {
+.singleActivity {
   display: block;
 }

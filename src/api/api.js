@@ -109,9 +109,18 @@ export const getProfile = async (token) => {
   }
 };
 
-document.readyState(() => {
-  $('[data-toggle="popver"]').popover({
-    placement: 'top',
-    trigger: 'hover',
-  })
-})
+export const userRoutines = async (username, token) => {
+  try {
+    const response = await fetch(`${BASE_URL}/users/${username}/routines`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const result = await response.json();
+    console.log(result, "hi mike");
+    return result;
+  } catch (err) {
+    console.error(err);
+  }
+};

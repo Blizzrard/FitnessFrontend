@@ -1,18 +1,34 @@
 import { Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
 import NavBar from "../components/navbar";
-import { fetchAllRoutines } from "../api/api";
+import { fetchAllRoutines, getProfile } from "../api/api";
 
 export default function Root() {
   const [authToken, setAuthToken] = useState("");
   const [routines, setRoutines] = useState([]);
+  const [userProfile, setUserProfile] = useState({});
+  const [loaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    try {
+      Promise.all([localStorage.getItem("token"), getProfile(authToken)])
+        .then((values) => {
+          setAuthToken(values[0]);
+          setUserProfile(values[1]);
+        })
+        .then(setIsLoaded(true));
+    } catch (error) {}
+  }, [authToken]);
   return (
     <div className="main">
-      <NavBar context={[authToken, setAuthToken]} />
+      <NavBar context={authToken} />
       <Outlet
         context={{
           fetchAllRoutines: fetchAllRoutines,
           routines: [routines, setRoutines],
+          userProfile: [userProfile, setUserProfile],
+          authToken,
+          loaded,
         }}
       />
     </div>

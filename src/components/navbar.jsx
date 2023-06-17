@@ -12,7 +12,7 @@ export default function NavBar() {
           <Link to={"/routines"}>Routines</Link>
           <Link to={"/activities"}>Activities</Link>
           <Link to={"/routine_activities"}>Routine Activities</Link>
-          <Link to={"/users/me"}>Profile</Link>
+          <Link to={"/users/myroutines"}>My Routines</Link>
         </div>
       </div>
     );

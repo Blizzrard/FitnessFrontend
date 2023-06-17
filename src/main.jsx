@@ -12,7 +12,7 @@ import RoutineAcivities from "./components/routine_activites";
 import Routines from "./components/routines";
 import Login from "./components/login";
 import Register from "./components/register";
-import Profile from "./components/profile";
+import MyRoutines from "./components/myRoutines";
 import "./index.css";
 
 const router = createBrowserRouter([
@@ -27,7 +27,7 @@ const router = createBrowserRouter([
       { path: "/routine_activities", element: <RoutineAcivities /> },
       { path: "/users/login", element: <Login /> },
       { path: "/users/register", element: <Register /> },
-      { path: "/users/me", element: <Profile /> },
+      { path: "/users/myroutines", element: <MyRoutines /> },
     ],
   },
 ]);
