@@ -4,7 +4,6 @@ import UserOwnPost from "./userOwnPost";
 
 export default function RoutineBox(props) {
   const { routines, userProfile, token, setRoutines } = props;
-  console.log(routines, userProfile);
   const userIsAuth = true;
   return (
     <div className="userRoutines">

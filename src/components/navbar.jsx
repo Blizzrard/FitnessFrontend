@@ -38,7 +38,6 @@ export default function NavBar() {
         <Link to={"/"}>Home</Link>
         <Link to={"/routines"}>Routines</Link>
         <Link to={"/activities"}>Activities</Link>
-        <Link to={"/routine_activities"}>Routine Activities</Link>
         <Link to={"/users/login"}>Login/Register</Link>
       </div>
     </div>

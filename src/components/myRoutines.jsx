@@ -121,33 +121,23 @@ export default function MyRoutines() {
               }
               if (response1) {
                 routines.filter((routine) => {
-                  console.log(routine.id, routineId);
                   if (routine.id.toString() !== routineId) {
                     newRoutines.push(routine);
-                    console.log("excuse me", routine.name, newNameText);
                   } else {
                     activities.map((activity) => {
-                      console.log(activity.id, activityId);
                       if (activity.id.toString() === activityId) {
                         response2.name = activity.name;
                         response2.description = activity.description;
-                        console.log("excuse me", routine.name, newNameText);
                         routine.name = newNameText;
                         routine.goal = newGoalText;
 
                         routine.activities.push(response2);
-                        console.log(
-                          response2,
-                          "needseebetter",
-                          routine.activities
-                        );
                         newRoutines.push(routine);
                       }
                     });
                   }
                 });
               }
-              console.log(newRoutines, "sad");
               localStorage.removeItem("itemToEdit");
               setNewNameText("");
               setNewGoalText("");
@@ -210,14 +200,12 @@ export default function MyRoutines() {
               newNameText,
               newGoalText
             );
-            console.log(response);
             if (response.error) {
               setErrorMessage(response.error);
               document.getElementById("errorMessageBox").style.display =
                 "block";
               return;
             }
-            console.log(response);
             let newRoutines = [...routines, response];
             setNewGoalText("");
             setNewNameText("");

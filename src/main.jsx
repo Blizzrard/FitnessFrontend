@@ -1,6 +1,3 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -8,7 +5,6 @@ import Root from "./routes/root";
 import Home from "./components/home";
 import Activities from "./components/activities";
 import Users from "./components/users";
-import RoutineAcivities from "./components/routine_activites";
 import Routines from "./components/routines";
 import Login from "./components/login";
 import Register from "./components/register";

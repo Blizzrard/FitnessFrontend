@@ -32,8 +32,6 @@ export default function EditBox(props) {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          console.log(typeof newCountText, newDurationText);
-          /* 99% chance this isn't the form you are looking for be wary */
           const response1 = patchRoutine(
             authToken,
             newNameText,

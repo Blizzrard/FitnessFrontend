@@ -49,7 +49,6 @@ export default function AllActivities(props) {
       </div>
     );
   }
-  console.log(userIsAuth);
   if (userIsAuth === true) {
     return (
       <div className="allActivities">

@@ -26,7 +26,6 @@ export default function UserOwnPost(props) {
           const response = await delRoutine(token, routineId);
           if (response.error) {
             setErrorMessage(response.message);
-            console.log(errorMessage, "y u break");
             document.getElementById("errorMessageBox").style.display = "block";
           }
           if (response.success) {
@@ -36,7 +35,6 @@ export default function UserOwnPost(props) {
                 newRoutines.push(routine);
               }
             });
-            console.log(newRoutines);
             return setRoutines(newRoutines);
           }
         }}

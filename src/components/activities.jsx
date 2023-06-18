@@ -34,7 +34,6 @@ export default function Activities() {
             document.getElementById("errorMessageBox").style.display = "block";
             return;
           }
-          console.log(response);
           let newActivities = [...activities, response];
           setNewDescription("");
           setNewNameText("");
