@@ -69,7 +69,12 @@ export default function MyRoutines() {
     return (
       <div>
         <ErrorMessage errorMessage={errorMessage} />
-        <EditBox userProfile={userProfile} routines={routines} />
+        <EditBox
+          userProfile={userProfile}
+          routines={routines}
+          authToken={authToken}
+          setRoutines={setRoutines}
+        />
         <form
           onSubmit={async (e) => {
             e.preventDefault();

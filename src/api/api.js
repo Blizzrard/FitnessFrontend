@@ -184,3 +184,52 @@ export const postActivity = async (token, name, description) => {
     console.error(err);
   }
 };
+
+export const patchRoutine = async (token, name, goal, routineId) => {
+  try {
+    const response = await fetch(`${BASE_URL}/routines/${routineId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        name: name,
+        goal: goal,
+      }),
+    });
+    const result = await response.json();
+    console.log(result);
+    return result;
+  } catch (err) {
+    console.error(err);
+  }
+};
+export const addRoutineActivity = async (
+  routineId,
+  activityId,
+  count,
+  duration
+) => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/routines/${routineId}/activities`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          activityId: activityId,
+          count: count,
+          duration: duration,
+        }),
+      }
+    );
+    const result = await response.json();
+    console.log(result);
+    return result;
+  } catch (err) {
+    console.error(err);
+  }
+};
