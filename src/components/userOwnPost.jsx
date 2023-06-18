@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { delRoutine, userRoutines } from "../api/api";
 import ErrorMessage from "./errorMessage";
+import EditBox from "./editBox";
 
 export default function UserOwnPost(props) {
   const { token, routineId, routines, setRoutines } = props;
@@ -8,7 +9,18 @@ export default function UserOwnPost(props) {
   return (
     <div className="userOwnPost">
       <ErrorMessage errorMessage={errorMessage} />
-      <button>Edit</button>
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+          document.getElementById("newRoutineFormId").style.display = "none";
+          localStorage.setItem(
+            "itemToEdit",
+            e.target.parentElement.parentElement.id
+          );
+        }}
+      >
+        Edit
+      </button>
       <button
         onClick={async (e) => {
           const response = await delRoutine(token, routineId);

@@ -1,9 +1,51 @@
 import React from "react";
 
 export default function AllActivities(props) {
-  const { activities, routine } = props;
+  const { activities, routine, routines } = props;
   if (!activities) {
     return <div></div>;
+  }
+  if (routines) {
+    return (
+      <div>
+        {routines.map((routine) => {
+          return (
+            <div key={Math.random()} className="allActivities">
+              {activities.map((activity) => {
+                return (
+                  <div className="singleActivity" key={activity.id}>
+                    <button
+                      id={activity.id}
+                      onMouseOver={(e) => {
+                        const hoveredAct = document.getElementById(
+                          `actDesc${activity.id}Routine${routine.id}`
+                        );
+                        hoveredAct.style.display = "block";
+                      }}
+                      onMouseOut={(e) => {
+                        const hoveredAct = document.getElementById(
+                          `actDesc${activity.id}Routine${routine.id}`
+                        );
+                        hoveredAct.style.display = "none";
+                      }}
+                      className="activity"
+                    >
+                      {activity.name}
+                    </button>
+                    <div
+                      id={`actDesc${activity.id}Routine${routine.id}`}
+                      className="activityDesc"
+                    >
+                      <div>Description: {activity.description}</div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })}
+      </div>
+    );
   }
   return (
     <div className="allActivities">

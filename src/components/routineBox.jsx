@@ -11,7 +11,7 @@ export default function RoutineBox(props) {
         if (userProfile) {
           if (routine.creatorId === userProfile.id) {
             return (
-              <div className="routineBox" key={routine.id}>
+              <div className="routineBox" key={routine.id} id={routine.id}>
                 <div className="innerRoutineBox">
                   <h1>{routine.name}</h1>
                   <div className="activityBox">

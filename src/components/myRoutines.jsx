@@ -3,6 +3,7 @@ import { getProfile, postRoutine, userRoutines } from "../api/api";
 import { useOutletContext } from "react-router-dom";
 import RoutineBox from "./routineBox";
 import ErrorMessage from "./errorMessage";
+import EditBox from "./editBox";
 
 export default function MyRoutines() {
   const { userProfile, authToken } = useOutletContext();
@@ -25,10 +26,11 @@ export default function MyRoutines() {
     if (!authToken) {
       return <div>No user logged in</div>;
     }
-    if (loaded) {
+    if (loaded && routines) {
       return (
         <div>
           <ErrorMessage errorMessage={errorMessage} />
+          <EditBox routines={routines} />
           <form
             onSubmit={(e) => {
               /* 99% chance this isn't the form you are looking for be wary */
@@ -67,6 +69,7 @@ export default function MyRoutines() {
     return (
       <div>
         <ErrorMessage errorMessage={errorMessage} />
+        <EditBox userProfile={userProfile} routines={routines} />
         <form
           onSubmit={async (e) => {
             e.preventDefault();
@@ -89,6 +92,7 @@ export default function MyRoutines() {
             return setRoutines(newRoutines);
           }}
           className="newRoutineForm"
+          id="newRoutineFormId"
         >
           <h1>Create new routine:</h1>
           <label htmlFor="newName">Name: </label>

@@ -10,11 +10,15 @@ export default function Root() {
 
   useEffect(() => {
     try {
-      Promise.all([localStorage.getItem("token"), getProfile(authToken)])
-        .then((values) => {
-          setAuthToken(values[0]);
-          setUserProfile(values[1]);
-        })
+      Promise.all([
+        localStorage.getItem("token"),
+        getProfile(authToken),
+        fetchAllRoutines(),
+      ]).then((values) => {
+        setAuthToken(values[0]);
+        setUserProfile(values[1]);
+        setRoutines(values[2]);
+      });
     } catch (error) {}
   }, [authToken]);
   return (

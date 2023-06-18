@@ -164,3 +164,7 @@ input {
   margin-bottom: 5px;
   padding-top: 5px;
 }
+.newActivityForm {
+  min-height: 100px;
+  border: 2px solid black;
+}
