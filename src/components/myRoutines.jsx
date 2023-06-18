@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { getProfile, postRoutine, userRoutines } from "../api/api";
+import {
+  addRoutineActivity,
+  getAllActivities,
+  getProfile,
+  patchRoutine,
+  postRoutine,
+  userRoutines,
+} from "../api/api";
 import { useOutletContext } from "react-router-dom";
 import RoutineBox from "./routineBox";
 import ErrorMessage from "./errorMessage";
@@ -11,13 +18,22 @@ export default function MyRoutines() {
   const [newNameText, setNewNameText] = useState("");
   const [newGoalText, setNewGoalText] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [newCountText, setNewCountText] = useState(Number);
+  const [newDurationText, setNewDurationText] = useState(Number);
+  const [activities, setActivities] = useState([]);
+  const routineId = localStorage.getItem("itemToEdit");
+  const [activityId, setActivityId] = useState("");
   const [loaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     try {
-      Promise.all([userRoutines(userProfile[0].username, authToken)])
+      Promise.all([
+        userRoutines(userProfile[0].username, authToken),
+        getAllActivities(),
+      ])
         .then((values) => {
           setRoutines(values[0]);
+          setActivities(values[1]);
         })
         .then(setIsLoaded(true));
     } catch (error) {}
@@ -33,6 +49,7 @@ export default function MyRoutines() {
           <EditBox routines={routines} />
           <form
             onSubmit={(e) => {
+              e.preventDefault();
               /* 99% chance this isn't the form you are looking for be wary */
               const response = postRoutine(authToken, newNameText, newGoalText);
               if (response.error) {
@@ -41,6 +58,10 @@ export default function MyRoutines() {
                   "none";
                 setIsLoaded(true);
               }
+              let newArr = [...routines, response];
+              setNewNameText("");
+              setNewGoalText("");
+              return setRoutines(newArr);
             }}
             className="newRoutineForm"
           >
@@ -69,12 +90,117 @@ export default function MyRoutines() {
     return (
       <div>
         <ErrorMessage errorMessage={errorMessage} />
-        <EditBox
-          userProfile={userProfile}
-          routines={routines}
-          authToken={authToken}
-          setRoutines={setRoutines}
-        />
+        <div className="editBox" id="editBoxId">
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault();
+              let newRoutines = [];
+              const response1 = await patchRoutine(
+                authToken,
+                newNameText,
+                newGoalText,
+                routineId
+              );
+              const response2 = await addRoutineActivity(
+                routineId,
+                activityId,
+                newCountText,
+                newDurationText
+              );
+              if (response1.error) {
+                setErrorMessage(response1.error);
+                document.getElementById("errorMessageBox").style.display =
+                  "block";
+                setIsLoaded(true);
+              }
+              if (response2.error) {
+                setErrorMessage(response2.error);
+                document.getElementById("errorMessageBox").style.display =
+                  "block";
+                setIsLoaded(true);
+              }
+              if (response1) {
+                routines.filter((routine) => {
+                  console.log(routine.id, routineId);
+                  if (routine.id.toString() !== routineId) {
+                    newRoutines.push(routine);
+                    console.log("excuse me", routine.name, newNameText);
+                  } else {
+                    activities.map((activity) => {
+                      console.log(activity.id, activityId);
+                      if (activity.id.toString() === activityId) {
+                        response2.name = activity.name;
+                        response2.description = activity.description;
+                        console.log("excuse me", routine.name, newNameText);
+                        routine.name = newNameText;
+                        routine.goal = newGoalText;
+
+                        routine.activities.push(response2);
+                        console.log(
+                          response2,
+                          "needseebetter",
+                          routine.activities
+                        );
+                        newRoutines.push(routine);
+                      }
+                    });
+                  }
+                });
+              }
+              console.log(newRoutines, "sad");
+              localStorage.removeItem("itemToEdit");
+              setNewNameText("");
+              setNewGoalText("");
+              setNewCountText(0);
+              setNewDurationText(0);
+              setActivityId(0);
+              return setRoutines(newRoutines);
+            }}
+            className="newRoutineForm"
+          >
+            <h1>Edit Routine</h1>
+            <label htmlFor="newName">Name: </label>
+            <input
+              onChange={(e) => setNewNameText(e.target.value)}
+              id="newName"
+              type="text"
+              value={newNameText}
+            ></input>
+            <label htmlFor="newGoal">Goal: </label>
+            <input
+              onChange={(e) => setNewGoalText(e.target.value)}
+              type="text"
+              id="newGoal"
+              value={newGoalText}
+            ></input>
+            <select
+              name="activity"
+              value={activityId}
+              onChange={(e) => setActivityId(e.target.value)}
+            >
+              {activities.map((activity) => (
+                <option value={activity.id} key={activity.id}>
+                  {activity.name}
+                </option>
+              ))}
+            </select>
+            <label htmlFor="newCount">Count: </label>
+            <input
+              onChange={(e) => setNewCountText(e.target.value)}
+              type="number"
+              id="newCount"
+              value={newCountText}
+            ></input>
+            <label htmlFor="newDuration">Duration: </label>
+            <input
+              onChange={(e) => setNewDurationText(e.target.value)}
+              type="number"
+              id="newDuration"
+              value={newDurationText}
+            ></input>
+            <button>Submit</button>
+          </form>
+        </div>
         <form
           onSubmit={async (e) => {
             e.preventDefault();
@@ -84,6 +210,7 @@ export default function MyRoutines() {
               newNameText,
               newGoalText
             );
+            console.log(response);
             if (response.error) {
               setErrorMessage(response.error);
               document.getElementById("errorMessageBox").style.display =

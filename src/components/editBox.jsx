@@ -8,9 +8,10 @@ import {
   userRoutines,
 } from "../api/api";
 import { useSearchParams } from "react-router-dom";
+import RoutineBox from "./routineBox";
 
 export default function EditBox(props) {
-  const { setRoutines, routines, authToken } = props;
+  const { setRoutines, routines, authToken, userProfile } = props;
   const [newNameText, setNewNameText] = useState("");
   const [newGoalText, setNewGoalText] = useState("");
   const [newCountText, setNewCountText] = useState(Number);
@@ -25,7 +26,7 @@ export default function EditBox(props) {
         setActivities(values[0]);
       });
     } catch (error) {}
-  }, []);
+  }, [routines]);
   return (
     <div className="editBox" id="editBoxId">
       <form
@@ -55,15 +56,14 @@ export default function EditBox(props) {
             document.getElementById("errorMessageBox").style.display = "none";
             setIsLoaded(true);
           }
-          console.log(response1, response2);
           if (response1) {
-            let newArr = routines.filter((routine) => {
+            routines.filter((routine) => {
               if (routine.id !== routineId) {
-                return routine;
+                let newArr = [];
+                newArr.push(routine);
+                return setRoutines([...newArr, response1]);
               }
             });
-            console.log(newArr, response1, "extra confused");
-            setRoutines([...newArr, response1]);
             setNewCountText(0);
             setNewDurationText(0);
             setNewNameText("");
