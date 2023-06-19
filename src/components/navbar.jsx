@@ -19,6 +19,7 @@ export default function NavBar() {
             onClick={() => {
               localStorage.removeItem("token");
               localStorage.removeItem("isLoggedIn");
+              localStorage.removeItem("username");
               navigate("/");
             }}
           >

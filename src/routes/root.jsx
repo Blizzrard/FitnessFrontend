@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
 import NavBar from "../components/navbar";
-import { fetchAllRoutines, getProfile } from "../api/api";
+import { fetchAllRoutines, getProfile, myData } from "../api/api";
 
 export default function Root() {
   const [authToken, setAuthToken] = useState("");
@@ -12,7 +12,7 @@ export default function Root() {
     try {
       Promise.all([
         localStorage.getItem("token"),
-        getProfile(authToken),
+        getProfile(localStorage.getItem("token")),
         fetchAllRoutines(),
       ]).then((values) => {
         setAuthToken(values[0]);
@@ -20,7 +20,7 @@ export default function Root() {
         setRoutines(values[2]);
       });
     } catch (error) {}
-  }, [authToken]);
+  }, [!userProfile]);
   return (
     <div className="main">
       <NavBar context={authToken} />

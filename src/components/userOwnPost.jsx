@@ -13,6 +13,7 @@ export default function UserOwnPost(props) {
         onClick={(e) => {
           e.preventDefault();
           document.getElementById("newRoutineFormId").style.display = "none";
+          document.getElementById("editBoxId").style.display = "block";
           localStorage.setItem(
             "itemToEdit",
             e.target.parentElement.parentElement.id

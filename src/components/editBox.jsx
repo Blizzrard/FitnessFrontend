@@ -32,6 +32,8 @@ export default function EditBox(props) {
       <form
         onSubmit={(e) => {
           e.preventDefault();
+          document.getElementById("editBoxId").style.display = "none";
+          document.getElementById("newRoutineFormId").style.display = "block";
           const response1 = patchRoutine(
             authToken,
             newNameText,
@@ -62,10 +64,14 @@ export default function EditBox(props) {
                 return setRoutines([...newArr, response1]);
               }
             });
+            document.getElementById("editBoxId").style.display = "none";
+            document.getElementById("editBoxId").style.display = "none";
+            document.getElementById("newRoutineFormId").style.display = "block";
             setNewCountText(0);
             setNewDurationText(0);
             setNewNameText("");
             setNewGoalText("");
+
             localStorage.removeItem("itemToEdit");
           }
         }}
@@ -111,7 +117,13 @@ export default function EditBox(props) {
           id="newDuration"
           value={newDurationText}
         ></input>
-        <button>Submit</button>
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+          }}
+        >
+          Submit
+        </button>
       </form>
     </div>
   );

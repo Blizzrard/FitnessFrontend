@@ -20,6 +20,7 @@ export default function Login() {
             if (response.token) {
               localStorage.setItem("isLoggedIn", true);
               localStorage.setItem("token", response.token);
+              localStorage.setItem("username", response.user.username);
               setUsernameEntry("");
               setPasswordEntry("");
               navigate("/");
