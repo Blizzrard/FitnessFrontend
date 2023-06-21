@@ -5,19 +5,13 @@ import AllActivities from "./allActivities";
 import ErrorMessage from "./errorMessage";
 
 export default function Activities() {
-  const { authToken, userProfile, routines } = useOutletContext();
-  const [activities, setActivities] = useState([]);
+  const { token, userProfile, routinesObj, activitiesObj } = useOutletContext();
+  const { activities, setActivities } = activitiesObj;
+  const { routines, setRoutines } = routinesObj;
   const [errorMessage, setErrorMessage] = useState("");
   const [newNameText, setNewNameText] = useState("");
   const [newDescription, setNewDescription] = useState("");
 
-  useEffect(() => {
-    try {
-      Promise.all([getAllActivities()]).then((value) => {
-        setActivities(value[0]);
-      });
-    } catch (error) {}
-  }, []);
   return (
     <div>
       <ErrorMessage errorMessage={errorMessage} />
@@ -25,7 +19,7 @@ export default function Activities() {
         onSubmit={async (e) => {
           e.preventDefault();
           const response = await postActivity(
-            authToken,
+            token,
             newNameText,
             newDescription
           );
@@ -58,7 +52,7 @@ export default function Activities() {
         ></input>
         <button>Submit</button>
       </form>
-      <AllActivities activities={activities} routines={routines} />
+      <AllActivities activities={activities} />
     </div>
   );
 }

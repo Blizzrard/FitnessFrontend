@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { delRoutineActivity } from "../api/api";
+import { useEffect } from "react";
 
 export default function AllActivities(props) {
   const { activities, routine, routines, userIsAuth, token } = props;
   const [routineActivities, setRoutineActivities] = useState([]);
-  if (!activities) {
-    return <div></div>;
-  }
   if (routines) {
     return (
       <div>
@@ -80,13 +78,16 @@ export default function AllActivities(props) {
                         if (
                           activity.id.toString() === e.target.parentElement.id
                         ) {
-                          document.getElementById(
-                            `${activity.id}`
-                          ).style.display = "none";
+                          // document.getElementById(
+                          //   `${activity.id}`
+                          // ).style.display = "none";
                           return delRoutineActivity(
                             token,
                             activity.routineActivityId
                           );
+                        } else {
+                          newArr.push(activity);
+                          return setRoutineActivities(newArr);
                         }
                       })
                     );
@@ -120,13 +121,13 @@ export default function AllActivities(props) {
               id={activity.id}
               onMouseOver={(e) => {
                 const hoveredAct = document.getElementById(
-                  `actDesc${activity.id}Routine${routine.id}`
+                  `actDesc${activity.id}`
                 );
                 hoveredAct.style.display = "block";
               }}
               onMouseOut={(e) => {
                 const hoveredAct = document.getElementById(
-                  `actDesc${activity.id}Routine${routine.id}`
+                  `actDesc${activity.id}`
                 );
                 hoveredAct.style.display = "none";
               }}
@@ -134,10 +135,7 @@ export default function AllActivities(props) {
             >
               {activity.name}
             </button>
-            <div
-              id={`actDesc${activity.id}Routine${routine.id}`}
-              className="activityDesc"
-            >
+            <div id={`actDesc${activity.id}`} className="activityDesc">
               <div>Description: {activity.description}</div>
               <div>Count: {activity.count}</div>
               <div>Duration: {activity.duration}</div>

@@ -64,7 +64,5 @@ export default function RoutineBox(props) {
         })}
       </div>
     );
-  } else {
-    return <div></div>;
   }
 }

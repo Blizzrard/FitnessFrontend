@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   addRoutineActivity,
-  getAllActivities,
-  getProfile,
   patchRoutine,
   postRoutine,
   userRoutines,
@@ -13,78 +11,26 @@ import ErrorMessage from "./errorMessage";
 import EditBox from "./editBox";
 
 export default function MyRoutines() {
-  const { userProfile, authToken } = useOutletContext();
-  const [routines, setRoutines] = useState([]);
+  const { userProfileObj, token, routinesObj, activitiesObj } =
+    useOutletContext();
+  const { routines, setRoutines } = routinesObj;
+  const { userProfile } = userProfileObj;
+  const { activities } = activitiesObj;
   const [newNameText, setNewNameText] = useState("");
   const [newGoalText, setNewGoalText] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [newCountText, setNewCountText] = useState(Number);
   const [newDurationText, setNewDurationText] = useState(Number);
-  const [activities, setActivities] = useState([]);
-  const routineId = localStorage.getItem("itemToEdit");
   const [activityId, setActivityId] = useState("");
-  const [loaded, setIsLoaded] = useState(false);
-  console.log(userProfile, "just fine");
+  const [uRoutines, setURoutines] = useState(null);
+  const routineId = localStorage.getItem("itemToEdit");
 
   useEffect(() => {
-    try {
-      Promise.all([
-        userRoutines(
-          localStorage.getItem("username"),
-          localStorage.getItem("token")
-        ),
-        getAllActivities(),
-      ])
-        .then((values) => {
-          setRoutines(values[0]);
-          setActivities(values[1]);
-        })
-        .then(setIsLoaded(true));
-    } catch (error) {}
-  }, [userProfile, authToken]);
-  if (!routines) {
-    return (
-      <div>
-        <ErrorMessage errorMessage={errorMessage} />
-        <EditBox routines={routines} />
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            /* 99% chance this isn't the form you are looking for be wary */
-            const response = postRoutine(authToken, newNameText, newGoalText);
-            if (response.error) {
-              setErrorMessage(response.error);
-              document.getElementById("errorMessageBox").style.display = "none";
-              setIsLoaded(true);
-            }
-            let newArr = [...routines, response];
-            setNewNameText("");
-            setNewGoalText("");
-            return setRoutines(newArr);
-          }}
-          className="newRoutineForm"
-        >
-          <h1>Create new routine:</h1>
-          <label htmlFor="newName">Name: </label>
-          <input
-            onChange={(e) => setNewNameText(e.target.value)}
-            id="newName"
-            type="text"
-            value={newNameText}
-          ></input>
-          <label htmlFor="newGoal">Goal: </label>
-          <input
-            onChange={(e) => setNewGoalText(e.target.value)}
-            type="text"
-            id="newGoal"
-            value={newGoalText}
-          ></input>
-          <button>Submit</button>
-        </form>
-        <div>Loading...</div>
-      </div>
-    );
-  }
+    userRoutines(userProfile.username, token).then((data) => {
+      setURoutines(data);
+    });
+  }, [routines, activities, activityId]);
+
   return (
     <div>
       <ErrorMessage errorMessage={errorMessage} />
@@ -94,7 +40,7 @@ export default function MyRoutines() {
             e.preventDefault();
             let newRoutines = [];
             const response1 = await patchRoutine(
-              authToken,
+              token,
               newNameText,
               newGoalText,
               routineId
@@ -109,13 +55,11 @@ export default function MyRoutines() {
               setErrorMessage(response1.error);
               document.getElementById("errorMessageBox").style.display =
                 "block";
-              setIsLoaded(true);
             }
             if (response2.error) {
               setErrorMessage(response2.error);
               document.getElementById("errorMessageBox").style.display =
                 "block";
-              setIsLoaded(true);
             }
             if (response1) {
               routines.filter((routine) => {
@@ -194,9 +138,8 @@ export default function MyRoutines() {
       <form
         onSubmit={async (e) => {
           e.preventDefault();
-          setIsLoaded(false);
           const response = await postRoutine(
-            authToken,
+            token,
             newNameText,
             newGoalText
           );
@@ -233,10 +176,10 @@ export default function MyRoutines() {
         <button>Submit</button>
       </form>
       <RoutineBox
-        routines={routines}
+        routines={uRoutines}
         setRoutines={setRoutines}
-        userProfile={userProfile[0]}
-        token={authToken}
+        userProfile={userProfile}
+        token={token}
       />
     </div>
   );
