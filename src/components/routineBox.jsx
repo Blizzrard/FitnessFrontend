@@ -5,6 +5,7 @@ import UserOwnPost from "./userOwnPost";
 export default function RoutineBox(props) {
   const { routines, userProfile, token, setRoutines } = props;
   const userIsAuth = true;
+  console.log(routines, "it gess worsse");
   if (routines) {
     return (
       <div className="userRoutines">
@@ -27,6 +28,7 @@ export default function RoutineBox(props) {
                         routine={routine}
                         userIsAuth={userIsAuth}
                         token={token}
+                        routines={routines}
                       />
                     </div>
                   </div>

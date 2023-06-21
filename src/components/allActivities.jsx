@@ -6,6 +6,7 @@ export default function AllActivities(props) {
   const { activities, routine, routines, userIsAuth, token } = props;
   const [routineActivities, setRoutineActivities] = useState([]);
   if (routines) {
+    console.log("oh you are to blame");
     return (
       <div>
         {routines.map((routine) => {
@@ -121,13 +122,13 @@ export default function AllActivities(props) {
               id={activity.id}
               onMouseOver={(e) => {
                 const hoveredAct = document.getElementById(
-                  `actDesc${activity.id}`
+                  `actDesc${activity.id}Routine${routine.id}`
                 );
                 hoveredAct.style.display = "block";
               }}
               onMouseOut={(e) => {
                 const hoveredAct = document.getElementById(
-                  `actDesc${activity.id}`
+                  `actDesc${activity.id}Routine${routine.id}`
                 );
                 hoveredAct.style.display = "none";
               }}
@@ -135,7 +136,7 @@ export default function AllActivities(props) {
             >
               {activity.name}
             </button>
-            <div id={`actDesc${activity.id}`} className="activityDesc">
+            <div id={`actDesc${activity.id}Routine${routine.id}`} className="activityDesc">
               <div>Description: {activity.description}</div>
               <div>Count: {activity.count}</div>
               <div>Duration: {activity.duration}</div>

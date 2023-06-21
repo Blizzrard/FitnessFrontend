@@ -98,7 +98,6 @@ p {
   cursor: pointer;
 }
 .activityDesc {
-  display: none;
   position: fixed;
   transform: translate(10px, 70%);
   z-index: 1;
