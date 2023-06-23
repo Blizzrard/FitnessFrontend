@@ -11,6 +11,7 @@ export default function Activities() {
   const [errorMessage, setErrorMessage] = useState("");
   const [newNameText, setNewNameText] = useState("");
   const [newDescription, setNewDescription] = useState("");
+  const notRoutines = true;
 
   return (
     <div>
@@ -52,7 +53,7 @@ export default function Activities() {
         ></input>
         <button>Submit</button>
       </form>
-      <AllActivities activities={activities} />
+      <AllActivities activities={activities} notRoutines={notRoutines} />
     </div>
   );
 }

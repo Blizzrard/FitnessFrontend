@@ -6,7 +6,7 @@ export default function RoutineBox(props) {
   const { routines, userProfile, token, setRoutines } = props;
   const userIsAuth = true;
   console.log(routines, "it gess worsse");
-  if (routines) {
+  if (routines && routines.length > 0) {
     return (
       <div className="userRoutines">
         {routines.map((routine) => {
@@ -24,7 +24,7 @@ export default function RoutineBox(props) {
                         </div>
                       </div>
                       <AllActivities
-                        activities={routine.activities}
+                        userRActivities={routine.activities}
                         routine={routine}
                         userIsAuth={userIsAuth}
                         token={token}
